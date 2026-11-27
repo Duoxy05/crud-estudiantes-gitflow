@@ -3,6 +3,15 @@
 
   const tbody = document.getElementById('student-rows');
   const count = document.getElementById('count');
+  const form = document.getElementById('student-form');
+  const fields = {
+    id: document.getElementById('student-id'),
+    matricula: document.getElementById('matricula'),
+    nombre: document.getElementById('nombre'),
+    email: document.getElementById('email'),
+    carrera: document.getElementById('carrera'),
+    fechaIngreso: document.getElementById('fechaIngreso')
+  };
 
   function escapeHtml(value) {
     return String(value)
@@ -35,6 +44,31 @@
       '</tr>';
     }).join('');
   }
+
+  function readForm() {
+    return {
+      matricula: fields.matricula.value.trim(),
+      nombre: fields.nombre.value.trim(),
+      email: fields.email.value.trim().toLowerCase(),
+      carrera: fields.carrera.value,
+      fechaIngreso: fields.fechaIngreso.value
+    };
+  }
+
+  function resetForm() {
+    form.reset();
+    fields.id.value = '';
+  }
+
+  // CREATE / UPDATE: guarda el formulario.
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const data = readForm();
+
+    StudentStore.add(data);
+    resetForm();
+    render();
+  });
 
   render();
 })();
