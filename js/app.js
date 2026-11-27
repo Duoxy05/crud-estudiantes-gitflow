@@ -46,6 +46,7 @@
         '<td>' + escapeHtml(formatDate(s.fechaIngreso)) + '</td>' +
         '<td><div class="row-actions">' +
           '<button type="button" class="btn small" data-action="edit" data-id="' + escapeHtml(s.id) + '">Editar</button>' +
+          '<button type="button" class="btn small danger" data-action="delete" data-id="' + escapeHtml(s.id) + '">Eliminar</button>' +
         '</div></td>' +
       '</tr>';
     }).join('');
@@ -117,12 +118,29 @@
     fields.nombre.focus();
   }
 
+  // DELETE: elimina un estudiante tras confirmar.
+  function removeStudent(id) {
+    const student = StudentStore.getById(id);
+    if (!student) return;
+    if (!window.confirm('¿Eliminar a ' + student.nombre + ' (' + student.matricula + ')?')) return;
+
+    StudentStore.remove(id);
+    if (fields.id.value === id) {
+      resetForm();
+    }
+    notify('Estudiante eliminado.', 'danger');
+    render();
+  }
+
   tbody.addEventListener('click', function (event) {
     const button = event.target.closest('button[data-action]');
     if (!button) return;
 
     if (button.dataset.action === 'edit') {
       startEdit(button.dataset.id);
+    }
+    if (button.dataset.action === 'delete') {
+      removeStudent(button.dataset.id);
     }
   });
 
