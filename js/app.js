@@ -14,6 +14,7 @@
   };
   const formTitle = document.getElementById('form-title');
   const submitBtn = document.getElementById('submit-btn');
+  const cancelBtn = document.getElementById('cancel-btn');
 
   function escapeHtml(value) {
     return String(value)
@@ -77,6 +78,7 @@
     fields.id.value = '';
     formTitle.textContent = 'Nuevo estudiante';
     submitBtn.textContent = 'Guardar';
+    cancelBtn.hidden = true;
   }
 
   // CREATE / UPDATE: guarda el formulario.
@@ -111,6 +113,7 @@
 
     formTitle.textContent = 'Editar estudiante';
     submitBtn.textContent = 'Actualizar';
+    cancelBtn.hidden = false;
     fields.nombre.focus();
   }
 
@@ -122,6 +125,8 @@
       startEdit(button.dataset.id);
     }
   });
+
+  cancelBtn.addEventListener('click', resetForm);
 
   render();
 })();
