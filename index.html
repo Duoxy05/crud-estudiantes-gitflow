@@ -13,6 +13,48 @@
   </header>
 
   <main class="layout">
+    <section class="card" id="form-card">
+      <h2 id="form-title">Nuevo estudiante</h2>
+      <form id="student-form">
+        <input type="hidden" id="student-id">
+
+        <div class="field">
+          <label for="matricula">Matrícula</label>
+          <input id="matricula" name="matricula" placeholder="2025-0001" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" name="nombre" placeholder="Ana Martínez" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input id="email" name="email" type="email" placeholder="ana@example.com" autocomplete="off" required>
+        </div>
+
+        <div class="field">
+          <label for="carrera">Carrera</label>
+          <select id="carrera" name="carrera" required>
+            <option value="">Selecciona una carrera</option>
+            <option>Desarrollo de Software</option>
+            <option>Redes de Información</option>
+            <option>Seguridad Informática</option>
+            <option>Inteligencia Artificial</option>
+            <option>Multimedia</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fechaIngreso">Fecha de ingreso</label>
+          <input id="fechaIngreso" name="fechaIngreso" type="date" required>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary" id="submit-btn">Guardar</button>
+        </div>
+      </form>
+    </section>
 
     <section class="card">
       <div class="card-head">
@@ -35,6 +77,8 @@
       </div>
     </section>
   </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="js/storage.js"></script>
   <script src="js/date.js"></script>
