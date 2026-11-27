@@ -26,11 +26,30 @@ const StudentStore = (function () {
     return cache;
   }
 
+  function write(list) {
+    cache = list;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (error) {
+      // Sin localStorage: los cambios solo duran mientras la página esté abierta.
+    }
+  }
+
+  function newId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
   return {
     getAll: function () {
       return read().slice().sort(function (a, b) {
         return a.matricula.localeCompare(b.matricula);
       });
+    },
+
+    add: function (data) {
+      const student = Object.assign({ id: newId() }, data);
+      write(read().concat(student));
+      return student;
     }
   };
 })();
