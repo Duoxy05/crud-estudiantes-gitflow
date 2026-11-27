@@ -60,6 +60,10 @@ const StudentStore = (function () {
       write(read().map(function (s) {
         return s.id === id ? Object.assign({}, s, data, { id: id }) : s;
       }));
+    },
+
+    remove: function (id) {
+      write(read().filter(function (s) { return s.id !== id; }));
     }
   };
 })();
