@@ -12,6 +12,8 @@
     carrera: document.getElementById('carrera'),
     fechaIngreso: document.getElementById('fechaIngreso')
   };
+  const formTitle = document.getElementById('form-title');
+  const submitBtn = document.getElementById('submit-btn');
 
   function escapeHtml(value) {
     return String(value)
@@ -41,6 +43,9 @@
         '<td>' + escapeHtml(s.email) + '</td>' +
         '<td>' + escapeHtml(s.carrera) + '</td>' +
         '<td>' + escapeHtml(formatDate(s.fechaIngreso)) + '</td>' +
+        '<td><div class="row-actions">' +
+          '<button type="button" class="btn small" data-action="edit" data-id="' + escapeHtml(s.id) + '">Editar</button>' +
+        '</div></td>' +
       '</tr>';
     }).join('');
   }
@@ -70,6 +75,8 @@
   function resetForm() {
     form.reset();
     fields.id.value = '';
+    formTitle.textContent = 'Nuevo estudiante';
+    submitBtn.textContent = 'Guardar';
   }
 
   // CREATE / UPDATE: guarda el formulario.
@@ -77,10 +84,43 @@
     event.preventDefault();
     const data = readForm();
 
+    if (fields.id.value) {
+      StudentStore.update(fields.id.value, data);
+      notify('Estudiante actualizado.');
+      resetForm();
+      render();
+      return;
+    }
+
     StudentStore.add(data);
     notify('Estudiante registrado.');
     resetForm();
     render();
+  });
+
+  function startEdit(id) {
+    const student = StudentStore.getById(id);
+    if (!student) return;
+
+    fields.id.value = student.id;
+    fields.matricula.value = student.matricula;
+    fields.nombre.value = student.nombre;
+    fields.email.value = student.email;
+    fields.carrera.value = student.carrera;
+    fields.fechaIngreso.value = student.fechaIngreso;
+
+    formTitle.textContent = 'Editar estudiante';
+    submitBtn.textContent = 'Actualizar';
+    fields.nombre.focus();
+  }
+
+  tbody.addEventListener('click', function (event) {
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+
+    if (button.dataset.action === 'edit') {
+      startEdit(button.dataset.id);
+    }
   });
 
   render();
