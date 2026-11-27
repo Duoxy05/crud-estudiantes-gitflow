@@ -13,12 +13,31 @@
   </header>
 
   <main class="layout">
+
     <section class="card">
-      <h2>Proyecto en construcción</h2>
-      <p class="muted">Las funcionalidades se integran por ramas siguiendo Git Flow.</p>
+      <div class="card-head">
+        <h2>Estudiantes</h2>
+        <span id="count" class="badge"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Matrícula</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Carrera</th>
+              <th>Ingreso</th>
+            </tr>
+          </thead>
+          <tbody id="student-rows"></tbody>
+        </table>
+      </div>
     </section>
   </main>
 
   <script src="js/storage.js"></script>
+  <script src="js/date.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
