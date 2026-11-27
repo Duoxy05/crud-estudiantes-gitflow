@@ -45,6 +45,18 @@
     }).join('');
   }
 
+  let toastTimer = null;
+
+  function notify(message, type) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast show' + (type ? ' ' + type : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toast.className = 'toast';
+    }, 2500);
+  }
+
   function readForm() {
     return {
       matricula: fields.matricula.value.trim(),
@@ -66,6 +78,7 @@
     const data = readForm();
 
     StudentStore.add(data);
+    notify('Estudiante registrado.');
     resetForm();
     render();
   });
