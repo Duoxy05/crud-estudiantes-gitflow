@@ -64,6 +64,18 @@
     }, 2500);
   }
 
+  function showErrors(errors) {
+    document.querySelectorAll('[data-error-for]').forEach(function (el) {
+      const name = el.dataset.errorFor;
+      el.textContent = errors[name] || '';
+      fields[name].classList.toggle('invalid', Boolean(errors[name]));
+    });
+  }
+
+  function clearErrors() {
+    showErrors({});
+  }
+
   function readForm() {
     return {
       matricula: fields.matricula.value.trim(),
@@ -80,12 +92,19 @@
     formTitle.textContent = 'Nuevo estudiante';
     submitBtn.textContent = 'Guardar';
     cancelBtn.hidden = true;
+    clearErrors();
   }
 
   // CREATE / UPDATE: guarda el formulario.
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     const data = readForm();
+    const errors = validateStudent(data, StudentStore.getAll(), fields.id.value);
+
+    showErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
 
     if (fields.id.value) {
       StudentStore.update(fields.id.value, data);
@@ -115,6 +134,7 @@
     formTitle.textContent = 'Editar estudiante';
     submitBtn.textContent = 'Actualizar';
     cancelBtn.hidden = false;
+    clearErrors();
     fields.nombre.focus();
   }
 
