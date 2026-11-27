@@ -19,6 +19,10 @@ function validateStudent(data, existingStudents, currentId) {
     errors.matricula = 'La matrícula es obligatoria.';
   } else if (!MATRICULA_PATTERN.test(data.matricula)) {
     errors.matricula = 'Formato esperado: 2025-0001.';
+  } else if (existingStudents.some(function (s) {
+    return s.matricula === data.matricula && s.id !== currentId;
+  })) {
+    errors.matricula = 'Ya existe un estudiante con esa matrícula.';
   }
 
   if (!data.nombre) {
