@@ -50,6 +50,16 @@ const StudentStore = (function () {
       const student = Object.assign({ id: newId() }, data);
       write(read().concat(student));
       return student;
+    },
+
+    getById: function (id) {
+      return read().find(function (s) { return s.id === id; }) || null;
+    },
+
+    update: function (id, data) {
+      write(read().map(function (s) {
+        return s.id === id ? Object.assign({}, s, data, { id: id }) : s;
+      }));
     }
   };
 })();
